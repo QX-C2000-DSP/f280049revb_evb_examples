@@ -1,0 +1,16 @@
+.settings/
+.metadata/
+.cache/
+Build/
+Release/
+Debug/
+
+compile_commands.json
+*.hex
+*.ihex
+*.srec
+*.bin
+package.dat
+log.txt
+~*
+ldscript_Memory.vh

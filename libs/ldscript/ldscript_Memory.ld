@@ -1,0 +1,88 @@
+MEMORY
+{
+  /*
+   * Part 1: memory Layout
+   */
+  
+  /* Near SRAM banks, can be used for Instruction or Data */
+  GS00_RAM   : ORIGIN = 0x00000000, LENGTH = 0x00008000
+  GS01_RAM   : ORIGIN = 0x00008000, LENGTH = 0x00008000
+  GS02_RAM   : ORIGIN = 0x00010000, LENGTH = 0x00008000
+  GS03_RAM   : ORIGIN = 0x00018000, LENGTH = 0x00008000
+  GS04_RAM   : ORIGIN = 0x00020000, LENGTH = 0x00008000
+  GS05_RAM   : ORIGIN = 0x00028000, LENGTH = 0x00008000
+  GS06_RAM   : ORIGIN = 0x00030000, LENGTH = 0x00008000
+  GS07_RAM   : ORIGIN = 0x00038000, LENGTH = 0x00008000
+  GS08_RAM   : ORIGIN = 0x00040000, LENGTH = 0x00008000
+  GS09_RAM   : ORIGIN = 0x00048000, LENGTH = 0x00008000
+  GS10_RAM   : ORIGIN = 0x00050000, LENGTH = 0x00008000
+  GS11_RAM   : ORIGIN = 0x00058000, LENGTH = 0x00008000
+  GS12_RAM   : ORIGIN = 0x00060000, LENGTH = 0x00008000
+  GS13_RAM   : ORIGIN = 0x00068000, LENGTH = 0x00008000
+  GS14_RAM   : ORIGIN = 0x00070000, LENGTH = 0x00008000
+  GS15_RAM   : ORIGIN = 0x00078000, LENGTH = 0x00008000
+  
+  /* Far SRAM banks, for Instruction only */
+  FAR0_RAM   : ORIGIN = 0x00080000, LENGTH = 0x00010000
+  FAR1_RAM   : ORIGIN = 0x00090000, LENGTH = 0x00010000
+  FAR2_RAM   : ORIGIN = 0x000A0000, LENGTH = 0x00010000
+  FAR3_RAM   : ORIGIN = 0x000B0000, LENGTH = 0x00010000
+  FAR4_RAM   : ORIGIN = 0x000C0000, LENGTH = 0x00010000
+  FAR5_RAM   : ORIGIN = 0x000D0000, LENGTH = 0x00010000
+  FAR6_RAM   : ORIGIN = 0x000E0000, LENGTH = 0x00010000
+  FAR7_RAM   : ORIGIN = 0x000F0000, LENGTH = 0x00010000
+  
+  /* RAM for bootloader */
+  BOOT_RAM_CORE0 : ORIGIN = 0x00280000, LENGTH = 0x00002000
+  BOOT_RAM_CORE1 : ORIGIN = 0x00282000, LENGTH = 0x00002000
+
+  /* IPC RAM */
+  IPC_CPU0_RAM   : ORIGIN = 0x00100000, LENGTH = 0x00001000
+  IPC_CPU1_RAM   : ORIGIN = 0x00101000, LENGTH = 0x00001000
+
+  /* XINTF Zones for external memory
+   * NOTE: only for chips with EMIF external interface 
+   */
+  XINTF_Zone0 : ORIGIN = 0x20004000, LENGTH = 0x00004000
+  XINTF_Zone6 : ORIGIN = 0x20100000, LENGTH = 0x00200000
+  XINTF_Zone7 : ORIGIN = 0x20300000, LENGTH = 0x00200000
+
+  /* Flash Memory: store instruction and data, and copy to RAM by bootloader */
+  FLASH_DATA       : ORIGIN = 0x30000000, LENGTH = 0x00100000
+
+
+  /*
+   * Part 2: memory allocation
+   */
+
+  /* 1. GSxx_RAM are allocated by 32KB blocks (0x8000), and FARx_RAM are allocated by 64KB blocks (0x10000)
+   * 2. Allocate all RAM to CORE0 is allowed, if not using CORE1
+   * 3. Reserve last 4KB of DATA RAM of each CORE for interrupt vector
+   *    NOTE: If GS_RAM_CORE0_IVEC or GS_RAM_CORE1_IVEC are changed, you must also update
+   *          PIEVECTTABLE0 or PIEVECTTABLE1 in ldscript_Peripheral.ld accordingly
+   * 4. Reserve 4 bytes at address 0x0 to support comparison with NULL pointer
+   */
+
+  /* CORE0 DRAM: 64KB (0x10000) */
+  GS_RAM_RESERVED   : ORIGIN = 0x00000000, LENGTH = 0x00000004
+  GS_RAM_CORE0_DATA : ORIGIN = 0x00000004, LENGTH = 0x0000FBFC
+  GS_RAM_CORE0_IVEC : ORIGIN = 0x0000FC00, LENGTH = 0x00000400
+  
+  /* CORE0 IRAM: 352KB (0x58000) */
+  GS_RAM_CORE0_INST : ORIGIN = 0x00010000, LENGTH = 0x00058000
+
+  /* CORE1 DRAM: 64KB (0x10000) */
+  GS_RAM_CORE1_DATA : ORIGIN = 0x00068000, LENGTH = 0x0000FC00
+  GS_RAM_CORE1_IVEC : ORIGIN = 0x00077C00, LENGTH = 0x00000400
+
+  /* CORE1 IRAM: 544KB (0x88000)
+   * NOTE: 1. Interrupt vector table cannot placed in FAR RAM, so at least one bank (32KB)
+   *          of near RAM must be allocated to DSP core.
+   *       2. Reserve last 512 Bytes for instruction prefetch
+   */
+  GS_RAM_CORE1_INST : ORIGIN = 0x00078000, LENGTH = 0x00087E00
+
+  /* Fake memory regions for specifying stack size */
+  STACK_CORE0       : ORIGIN = 0x00000000, LENGTH = 0x00000400
+  STACK_CORE1       : ORIGIN = 0x00000000, LENGTH = 0x00000400
+}

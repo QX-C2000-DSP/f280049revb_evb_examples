@@ -1,0 +1,105 @@
+
+#ifndef BOARD_H
+#define BOARD_H
+
+//*****************************************************************************
+//
+// If building with a C++ compiler, make all of the definitions in this header
+// have a C binding.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+//
+// Included Files
+//
+
+#include "driverlib.h"
+#include "device.h"
+
+//*****************************************************************************
+//
+// PinMux Configurations
+//
+//*****************************************************************************
+//
+// GPIO16 - GPIO Settings
+//
+#define myGPIO0_GPIO_PIN_CONFIG GPIO_16_GPIO16
+
+//*****************************************************************************
+//
+// ECAP Configurations
+//
+//*****************************************************************************
+#define myECAP1_BASE ECAP1_BASE
+#define myECAP1_SIGNAL_MUNIT_BASE ECAP1SIGNALMONITORING_BASE
+void myECAP1_init();
+#define myECAP2_BASE ECAP2_BASE
+#define myECAP2_SIGNAL_MUNIT_BASE ECAP2SIGNALMONITORING_BASE
+void myECAP2_init();
+#define myECAP3_BASE ECAP3_BASE
+#define myECAP3_SIGNAL_MUNIT_BASE ECAP3SIGNALMONITORING_BASE
+void myECAP3_init();
+
+//*****************************************************************************
+//
+// GPIO Configurations
+//
+//*****************************************************************************
+#define myGPIO0 16
+void myGPIO0_init();
+
+//*****************************************************************************
+//
+// INPUTXBAR Configurations
+//
+//*****************************************************************************
+#define myINPUTXBARINPUT0_SOURCE 16
+#define myINPUTXBARINPUT0_INPUT XBAR_INPUT7
+void myINPUTXBARINPUT0_init();
+
+//*****************************************************************************
+//
+// INTERRUPT Configurations
+//
+//*****************************************************************************
+
+// Interrupt Settings for INT_myECAP3
+// ISR need to be defined for the registered interrupts
+#define INT_myECAP3 INT_ECAP3
+#define INT_myECAP3_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP4
+extern __interrupt void INT_myECAP3_ISR(void);
+
+//*****************************************************************************
+//
+// SYNC Scheme Configurations
+//
+//*****************************************************************************
+
+//*****************************************************************************
+//
+// Board Configurations
+//
+//*****************************************************************************
+void    Board_init();
+void    ECAP_init();
+void    GPIO_init();
+void    INPUTXBAR_init();
+void    INTERRUPT_init();
+void    SYNC_init();
+void    PinMux_init();
+
+//*****************************************************************************
+//
+// Mark the end of the C bindings section for C++ compilers.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // end of BOARD_H definition

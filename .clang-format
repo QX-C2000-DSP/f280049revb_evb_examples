@@ -1,0 +1,42 @@
+# windows风格的格式化设置
+BasedOnStyle: WebKit
+
+# Windows风格的大括号,多数在新行书写起始和结尾大括号
+BreakBeforeBraces: Custom
+BraceWrapping: # 默认 true=换行, false=不换行
+  AfterCaseLabel: true # case后大括号, clang10才支持
+  AfterClass:      true # 类定义, flase=换行
+  AfterControlStatement: true # if/for/while/swith
+  AfterEnum:       true # 枚举定义
+  AfterFunction:   true # 函数定义
+  AfterNamespace:  true # 名字空间定义
+  AfterObjCDeclaration: true # object-c的定义
+  AfterStruct:     true # 结构体定义
+  AfterUnion:      true # 联合体定义
+  BeforeCatch:     true # catch关键字前
+  BeforeElse:      true # else关键字前
+  AfterExternBlock: false # extern "c", 优先设置为flase以避免不必要的所见
+  IndentBraces:    false # 是否缩进大括号本身, 一般设置为flase
+  SplitEmptyFunction: false # 空函数{}是否合为一行, false=合为一行
+  SplitEmptyRecord: false # class/union等的{}是否合为一行, false=合为一行
+  SplitEmptyNamespace: false # 名字空间的{}是否合为一行, false=合为一行
+
+# 以下是部分需要修改的推荐设置, 没有特殊需求不建议修改
+IndentWidth: 4
+TabWidth: 4
+AccessModifierOffset: -4 # public修饰符不缩进
+IndentCaseLabels: true # 缩进case语句
+PointerAlignment: Right # 指针操作符右对齐
+Cpp11BracedListStyle: false # 不对齐结构体初始化中的大括号
+AllowShortFunctionsOnASingleLine: None # 不自动合并短函数来尽量保持原有书写风格
+AllowAllParametersOfDeclarationOnNextLine: false # 避免长函数参数全部放在一行
+
+# 以下是各种对齐风格的设置, 可以根据情况进行自定义修改
+AlignConsecutiveMacros: true # 宏定义自动对齐, clang10才支持
+AlignConsecutiveAssignments: true # 按等号对齐连续的赋值语句
+AlignEscapedNewlinesLeft: true #  续航符靠左对齐
+AlignTrailingComments: true # 行尾注释进行列对齐
+AlignOperands: true # 位操作和三元运算符列对齐
+AlignConsecutiveBitFields: true # 结构字节域定义对齐
+SortIncludes: false # 不重新排序#include
+ColumnLimit: 100 # 每行最大长度限制

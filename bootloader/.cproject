@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="example.toolchain.configuration.release.232411760">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="example.toolchain.configuration.release.232411760" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="out" artifactName="${ProjName}" buildProperties="" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.VCErrorParser" id="example.toolchain.configuration.release.232411760" name="Release" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.enablement=null,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.image=null,org.eclipse.cdt.docker.launcher.containerbuild.property.connection=null" parent="example.toolchain.configuration.release.232411760" postbuildStep="../../postbuild.cmd ${TOOLHOME} ${ProjName} bootloader">
+					<folderInfo id="example.toolchain.configuration.release.232411760." name="/" resourcePath="">
+						<toolChain id="qxC2000.toolchain.toolchain.1537231673" name="QX C2000 ToolChain" superClass="qxC2000.toolchain.toolchain">
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="qxC2000.toolchain.targetplatform.1326242345" isAbstract="false" name="QX C2000 Target Platform" osList="all" superClass="qxC2000.toolchain.targetplatform"/>
+							<builder buildPath="${workspace_loc:/bootloader}/Release" id="qxC2000.toolchain.builder.1149427135" keepEnvironmentInBuildfile="false" name="QXC2000 Builder" superClass="qxC2000.toolchain.builder"/>
+							<tool id="qxC2000.toolchain.compiler.1330656439" name="Clang" superClass="qxC2000.toolchain.compiler">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="qxC2000.toolchain.compiler.general.paths.181487120" name="Include paths" superClass="qxC2000.toolchain.compiler.general.paths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="${TOOLHOME}/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/device}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/device/driverlib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/device/driverlib/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/device/driverlib/bit_field}&quot;"/>
+								</option>
+								<option id="qxC2000.toolchain.compiler.general.otherFlags.1098724688" name="Other flags" superClass="qxC2000.toolchain.compiler.general.otherFlags" value="-ffunction-sections -fdata-sections -D __boot_core0__" valueType="string"/>
+								<option id="qxC2000.toolchain.compiler.general.mcpu.1890008652" name="Specify chip" superClass="qxC2000.toolchain.compiler.general.mcpu" value="qx320f049v2" valueType="string"/>
+								<inputType id="qxC2000.toolchain.compiler.input.1080185819" name="Compiler Input" superClass="qxC2000.toolchain.compiler.input"/>
+							</tool>
+							<tool command="lld.exe" commandLinePattern="${TOOLHOME}/bin/${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT} ${INPUTS} -lqxboot -lm -lc -lrt -ldspsim" id="qxC2000.toolchain.linker.1742958777" name="Linker" superClass="qxC2000.toolchain.linker">
+								<option id="qxC2000.toolchain.linker.general.script.1148361061" name="Linker script" superClass="qxC2000.toolchain.linker.general.script" useByScannerDiscovery="false" value="ldscript_BootLoader_core0.ld" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="qxC2000.toolchain.linker.general.LinkedLibrary.990188773" name="Linked Library" superClass="qxC2000.toolchain.linker.general.LinkedLibrary" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/../libs/ldscript&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ldscript}&quot;"/>
+									<listOptionValue builtIn="false" value="${TOOLHOME}/libv2"/>
+								</option>
+								<option id="qxC2000.toolchain.linker.general.otherFlag.1745558392" superClass="qxC2000.toolchain.linker.general.otherFlag" value="-Map=${ProjName}.map --no-check-sections --gc-sections" valueType="string"/>
+								<inputType id="qxC2000.toolchain.linker.input.497939008" name="linker input" superClass="qxC2000.toolchain.linker.input"/>
+							</tool>
+							<tool command="clang.exe" id="qxC2000.toolchain.assembler.1143559536" name="Assembler" superClass="qxC2000.toolchain.assembler">
+								<option id="qxC2000.toolchain.assembler.general.debugLevel.1326557154" name="Debug level" superClass="qxC2000.toolchain.assembler.general.debugLevel" value="qxC2000.toolchain.assembler.general.debugLevel.none" valueType="enumerated"/>
+								<option id="qxC2000.toolchain.assembler.general.otherFlag.1024833333" name="Other flags" superClass="qxC2000.toolchain.assembler.general.otherFlag" value="-mcpu=qx320f049v2 -c" valueType="string"/>
+							</tool>
+							<tool id="qxC2000.toolchain.cla.2008649535" name="CLA" superClass="qxC2000.toolchain.cla">
+								<inputType id="qxC2000.toolchain.cla.input.1207829917" name="Cla Input" superClass="qxC2000.toolchain.cla.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="bootloaderstartup.s|bootinit280049.c|device/driverlib/hr_adc.c|device/driverlib/pmbus.c|device/startup.s|device/startup_debug.s|device/q28004x_startup_debug.s|device/driverlib/canfd.c|device/q28004x_startup.s|device/driverlib/xbar.c|device/driverlib/sysctl.c|device/driverlib/spi.c|device/driverlib/sdfm.c|device/driverlib/sci.c|device/driverlib/lin.c|device/driverlib/ipc.c|device/driverlib/interrupt.c|device/driverlib/i2c.c|device/driverlib/gpio.c|device/driverlib/fsi.c|device/driverlib/flash.c|device/driverlib/erad.c|device/driverlib/eqep.c|device/driverlib/epwm.c|device/driverlib/ecap.c|device/driverlib/dma.c|device/driverlib/dcc.c|device/driverlib/dac.c|device/driverlib/cputimer.c|device/driverlib/cmpss.c|device/driverlib/can.c|device/driverlib/adc.c|device/device.c|driverlib/xbar.c|driverlib/sysctl.c|driverlib/spi.c|driverlib/sdfm.c|driverlib/sci.c|driverlib/lin.c|driverlib/ipc.c|driverlib/interrupt.c|driverlib/i2c.c|driverlib/gpio.c|driverlib/fsi.c|driverlib/flash.c|driverlib/erad.c|driverlib/eqep.c|driverlib/epwm.c|driverlib/ecap.c|driverlib/dma.c|driverlib/dcc.c|driverlib/dac.c|driverlib/cputimer.c|driverlib/cmpss.c|driverlib/can.c|driverlib/adc.c|device/src/erad.c|device/src/xbar.c|device/src/sysctl.c|device/src/startup.c|device/src/spi.c|device/src/sdfm.c|device/src/sci.c|device/src/pga.c|device/src/lin.c|device/src/ipc.c|device/src/interrupt.c|device/src/i2c.c|device/src/gpio.c|device/src/fsi.c|device/src/flash.c|device/src/eqep.c|device/src/epwm.c|device/src/ecap.c|device/src/dma.c|device/src/dcc.c|device/src/dac.c|device/src/cputimer.c|device/src/cmpss.c|device/src/can.c|device/src/adc.c|device/src/qx_lin.c|device/src/qx_dlin.c|device/src/qx_gpio.c|device/src/core0/bootMain.s|device/src/core0/boot.c|device/src/core0/asm_core0.s|device/src/core1/asm_core1.s|device/src/qx_xbar.c|device/src/qx_sysctl.c|device/src/qx_startup.c|device/src/qx_spi.c|device/src/qx_sdfm.c|device/src/qx_sci.c|device/src/qx_pga.c|device/src/qx_ipc.c|device/src/qx_interrupt.c|device/src/qx_i2c.c|device/src/qx_hrcap.c|device/src/qx_fsi.c|device/src/qx_flash.c|device/src/qx_eqep.c|device/src/qx_epwm.c|device/src/qx_ecap.c|device/src/qx_dma.c|device/src/qx_dcc.c|device/src/qx_dac.c|device/src/qx_cputimer.c|device/src/qx_cmpss.c|device/src/qx_can.c|device/src/qx_adc.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="bootloader.example.toolchain.executable.996408135" name="Swift Executable"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/bootloader"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+</cproject>

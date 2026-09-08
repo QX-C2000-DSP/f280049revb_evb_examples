@@ -1,0 +1,2 @@
+CompileFlags:
+    Remove: [ "-gdwarf-2", "-mcpu=qx320f", "-target", "dsp", "-ffunction-sections", "-fdata-sections", "-MD", "-MMD" ]

@@ -1,0 +1,71 @@
+##### configurable variables
+AUTOENV  ?= ~/autoenv
+TOOLHOME ?= D:/qx/QX-IDE/qxtools/toolchain/3slot_320f
+PYTHON   ?= python
+OSENV    ?=
+
+##### Toolchain setting
+ifneq (,$(findstring linux,$(OSTYPE)))
+    CLANG := LD_LIBRARY_PATH=$(AUTOENV)/lib $(TOOLHOME)/bin/clang.bin
+    AS    := $(TOOLHOME)/bin/as.bin
+    LD    := $(TOOLHOME)/bin/ld.bin
+else
+    CLANG := $(TOOLHOME)/bin/clang.exe
+    AS    := $(TOOLHOME)/bin/as.exe
+    LD    := $(TOOLHOME)/bin/ld.exe
+endif
+
+##### sources and objects
+LIBS_DIR   := libs
+DRIVER_DIR := ../$(LIBS_DIR)/driverlib
+DEVICE_DIR := ../$(LIBS_DIR)/device
+
+C_SOURCES  := bootloadermain.c
+C_SOURCES  += $(DRIVER_DIR)/globalvariabledefs.c
+START_FILE := bootloaderstartup.s
+
+TARGET     := bootloader
+BUILD_DIR  := Release
+
+##### Toolchain options for C2000 DSP
+INC         := -I$(TOOLHOME)/include
+INC         += -I$(DRIVER_DIR) -I$(DRIVER_DIR)/bit_field -I$(DEVICE_DIR)
+CLANG_FLAGS := -gdwarf-2 -O0 -mcpu=qx320f -target dsp
+CLANG_FLAGS += -D__dsp__ -D__ELF__ -ffunction-sections -fdata-sections -c $(INC)
+CLANG_FLAGS += -MD
+
+LDSCRIPT := ldscript_BootLoader.ld
+LDFLAGS  := -L../$(LIBS_DIR)/ldscript -Lldscript -L$(TOOLHOME)/lib -L../$(LIBS_DIR)
+LDFLAGS  += -T $(LDSCRIPT) -Map=$(BUILD_DIR)/linkMapFile --no-check-sections --gc-sections
+
+##### build rules
+
+START_FILE_OBJ = $(addsuffix .o, $(basename $(notdir $(START_FILE))))
+OBJECTS        = $(addprefix $(BUILD_DIR)/, $(START_FILE_OBJ))
+OBJECTS       += $(addprefix $(BUILD_DIR)/, $(notdir $(C_SOURCES:%.c=%.o)))
+
+vpath %.c $(sort $(dir $(C_SOURCES)))
+vpath %.s $(dir $(START_FILE))
+
+.PHONY:all clean
+
+all: $(BUILD_DIR)/$(TARGET).out
+
+$(BUILD_DIR):
+	@mkdir -p $@
+
+$(BUILD_DIR)/$(TARGET).out: $(BUILD_DIR) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o $@ $(OBJECTS)
+	cd $(BUILD_DIR) && $(PYTHON) $(TOOLHOME)/bin/gen_ram_image.py \
+                       --coretype bootloader --inputexec $(TARGET).out --toolbinpath $(TOOLHOME)/bin $(OSENV)
+
+$(BUILD_DIR)/$(START_FILE_OBJ): $(START_FILE)
+	$(AS) -g $< -o $@
+
+$(BUILD_DIR)/%.o: %.c
+	$(CLANG) $(CLANG_FLAGS) $< -o $@
+
+clean:
+	rm -rf $(BUILD_DIR)/*
+
+-include $(OBJECTS:.o=.d)
