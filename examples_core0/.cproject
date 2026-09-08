@@ -30,6 +30,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/examples/eqep/eqep_ex1_freq_cal/iqmath}&quot;"/>
 								</option>
 								<option id="qxC2000.toolchain.compiler.general.mcpu.974471487" name="DSP core" superClass="qxC2000.toolchain.compiler.general.mcpu" value="qx320f049v2" valueType="string"/>
+								<option id="qxC2000.toolchain.compiler.general.opt.Level.534278116" name="Optimize level" superClass="qxC2000.toolchain.compiler.general.opt.Level" value="qxC2000.toolchain.compiler.general.opt.Level.O0" valueType="enumerated"/>
 								<inputType id="qxC2000.toolchain.compiler.input.2113862555" name="Compiler Input" superClass="qxC2000.toolchain.compiler.input"/>
 							</tool>
 							<tool command="lld.exe" commandLinePattern="${TOOLHOME}/bin/${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT} ${INPUTS} -lfastrt_fpu32v2 -lqxboot -lIQmath -lprintf -lm -lc -lrt -ldspsim" id="qxC2000.toolchain.linker.1922744321" name="Linker" superClass="qxC2000.toolchain.linker">

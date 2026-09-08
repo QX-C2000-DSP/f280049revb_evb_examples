@@ -1,49 +1,34 @@
-# ADC Software Triggering
+# Structure Refresh Stress Test
 
-## 文件所有
-本文适用于QXS320F28XXX系列芯片的ADC软件触发示例例程。
+本示例基于原来的 ADC 软件触发工程改造而来，当前用途是验证 IDE 实时刷新时，复杂结构体成员是否能持续正确更新。
 
-## 版权说明
-目前的固件只是为了给使用者提供指导，目的是向客户提供有关产品的代码信息，
-与使用者的产品信息和代码无关。因此，对于因此类固件内容和（或）客户使用此
-处包含的与其产品相关的编码信息而引起的任何索赔，合肥乾芯科技有限公司
-不承担任何直接、间接或后果性损害赔偿责任。
+程序会在主循环中不断更新以下对象：`gDbgFrame`、`gMirror`、`gHeartbeat`。
 
-## 使用说明
-- 本例展示了如何使用软件触发进行ADCA和ADCC的电压转换。
-- ADCC将不会进行转换，直到ADCA完成，因此ADC不会异步运行。然而，这比允许ADC同步并行转换效率低（例如，使用ePWM触发器）。
-  
-### 外部连接：
-- A0、A1、C2 和 C3 应连接到需要转换的信号。
+建议在 Watch 中重点观察这些成员：
 
-### 观察变量：
-- `myADC0Result0` - A0引脚电压的数字表示。
-- `myADC0Result1` - A1引脚电压的数字表示。
-- `myADC1Result0` - C2引脚电压的数字表示。
-- `myADC1Result1` - C3引脚电压的数字表示。
+- `gDbgFrame.packed.a` / `b` / `c` / `d` / `e` / `f`
+- `gDbgFrame.window.channels.raw[]`
+- `gDbgFrame.window.channels.filtered[]`
+- `gDbgFrame.window.channels.sum`
+- `gDbgFrame.window.channels.energy`
+- `gDbgFrame.window.history[]`
+- `gDbgFrame.stats.tick`
+- `gDbgFrame.stats.runningMax`
+- `gDbgFrame.stats.runningMin`
+- `gDbgFrame.stats.runningAvg`
+- `gDbgFrame.stats.gain`
+- `gDbgFrame.stats.offset`
+- `gDbgFrame.phase`
+- `gDbgFrame.crcLike`
+- `gMirror.accumulator`
+- `gMirror.transform`
+- `gHeartbeat`
 
-## 硬件
-- **ADC引脚定义：**
-  - A0: 连接至模拟信号源
-  - A1: 连接至模拟信号源
-  - C2: 连接至模拟信号源
-  - C3: 连接至模拟信号源
+判断方式很直接：
 
-## 如何运行
-1. **连接引脚：**
-   - 将A0、A1、C2 和 C3引脚连接到对应的模拟信号源，以便进行ADC转换。
-   
-2. **配置和编译：**
-   - 打开开发环境QX-IDE并配置项目。
-   - 编译项目并烧录到目标设备。
+1. `gHeartbeat` 应持续递增。
+2. `gDbgFrame` 内部多个成员应同步变化，但变化幅度不同。
+3. `gMirror.transform` 和 `gDbgFrame.crcLike` 应保持连续变化。
+4. 如果 Watch 里展开结构体后某些成员长期停留在旧值，而 `gHeartbeat` 在变，通常就能复现实时刷新问题。
 
-3. **观察输出：**
-   - 运行程序并查看转换结果，`myADC0Result0`、`myADC0Result1`、`myADC1Result0` 和 `myADC1Result1` 表示各引脚的电压值。
-
-## 注意事项
-- 本示例仅为软件触发模式的演示，若需要更高效的并行ADC转换，建议使用硬件触发器（例如ePWM触发器）。
-- 确保模拟信号源已正确连接到ADCA和ADCC引脚。
-
-## 许可证
-
-此示例代码由合肥乾芯科技有限公司提供，仅用于教育和示范目的。该代码可自由使用和修改，但在生产环境中使用时应遵循相关的许可证协议。
+这个工程仍保留原来的板级初始化流程，但 ADC 转换逻辑已不再是主测试内容。
